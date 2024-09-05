@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Standard Favicon -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+     
+    <!-- Android Icons -->
+    <link rel="icon" sizes="192x192" href="{% static 'images/android-chrome-192x192.png' %}">
+    <link rel="icon" sizes="512x512" href="{% static 'images/android-chrome-512x512.png' %}">
+     
+    <!-- Additional Favicon Sizes -->
+    <link rel="icon" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="icon" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+
+    {% load bootstrap5 %}
+
+    {% bootstrap_css %}
+    <link rel="stylesheet" type = 'text/css'  href="{% static 'css/custom.css' %}">
+    
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg"> <!-- navbar-dark bg-dark" -->
+        <a class="navbar-brand" href="/">Artificial Heirlooms</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/items/">Items</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/cart/">Cart</a>
+            </li>
+            {% endif %}
+          </ul>
+          <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center;">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            <li class="nav-item">
+              <span class="mr-2 navbar-username"> The {{ user.username }} </span>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+          </ul>
+      </div>
+    </nav>
+
+<div class="container">
+    <br>
+    {% block content %}
+
+        <!-- this is where all the other templates sit -->
+
+    {% endblock %}
+</div>
+
+    <!-- include bootstrap javascript -->
+    {% bootstrap_javascript %}
+
+</body>
+</html>

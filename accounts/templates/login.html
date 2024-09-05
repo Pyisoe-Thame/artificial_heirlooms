@@ -1,0 +1,21 @@
+{% extends 'master.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container-fluid justify-content-center align-items-center full-height">
+  <div class="card floating-card">
+    <div class="card-body">
+      <h2 class="card-title">Loginnā</h2>
+      <p class="card-text">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-outline-success">Login</button>
+        </form>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
