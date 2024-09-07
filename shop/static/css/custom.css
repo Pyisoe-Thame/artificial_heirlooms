@@ -12,7 +12,8 @@
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
-  background-image: url('../images/wallpaper.jpg'); /*Update the path to where the image is stored */
+  /*background-image: url('../images/wallpaper.jpg'); /*Update the path to where the image is stored */
+  background-color: whitesmoke; /* in case of no background image */
   background-size: cover; /* This makes the image cover the entire background */
   background-position: center center; /* This centers the image */
   background-repeat: repeat; /* Prevents the image from repeating */
@@ -36,6 +37,35 @@ h4,
 h5,
 h6 {
   font-family: "Arial", "Georgia";
+}
+
+/*--------------------------------------------------------------
+# Cart
+--------------------------------------------------------------*/
+
+.cart-row {
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: #ececec;
+}
+
+.row-image {
+  width: 100px;
+  height: auto;
+}
+
+.Quantity .quantity-input {
+  width: 80px;
+  text-align: center;
+  border: 1px solid #ced4da;
+  margin: 0 5px;
+  font-size: 18px;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /*--------------------------------------------------------------
