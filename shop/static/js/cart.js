@@ -6,8 +6,8 @@ for( var i = 0; i < updateButtons.length; i++)
         var productId = this.dataset.product
         var action = this.dataset.action
         console.log('productId:', productId, 'action:', action)
-
         console.log('User:', user)
+        
         if(user === "AnonymousUser")
             console.log("User is not authenticated.")
         else
@@ -39,3 +39,4 @@ function updateUserOrder(productId, action){
         location.reload()  /* refresh the page */
     })
 }
+

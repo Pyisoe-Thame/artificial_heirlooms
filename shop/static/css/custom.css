@@ -197,6 +197,38 @@ hr {
 }
 
 /*--------------------------------------------------------------
+# For cart item quantity 
+--------------------------------------------------------------*/
+
+.quantity-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;  /* Aligns the content to the left */
+  margin-left: 10px;  /* Adjust this value to move everything to the left */
+}
+
+.quantity {
+  font-size: 18px;
+  margin: 0 5px; /* Adjusts space between the quantity and arrows */
+  text-align: center;
+}
+
+.quantity-buttons {
+  display: flex;
+  flex-direction: column; /* Stack the arrows vertically */
+  justify-content: center;
+  align-items: center; /* Center the arrows horizontally */
+}
+
+.chg-quantity {
+  width: 15px; /* Size for the buttons */
+  height: 15px;
+  margin: 2px 0; /* Adjusts space between the arrows */
+  cursor: pointer;
+}
+
+
+/*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
 .back-to-top {

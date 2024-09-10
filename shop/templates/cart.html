@@ -39,9 +39,12 @@
 					<div style="flex:1"><img class="row-image" src="{{ item.product.imageURL }}"></div>
 					<div style="flex:2">{{ item.product.name }}</div>
 					<div style="flex:1">{{ item.product.price }}</div>
-					<div style="flex:1">
-						<div class="Quantity">
-							<input type="number" value="{{ item.product.quantity }}" min="1" class="quantity-input">
+					<div style="flex:1" class="quantity-container">
+						<p class="quantity">{{ item.quantity }}</p>
+						<div class="quantity-controls">
+							<img data-product={{item.product.id}} data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow_up_btn.png' %}">
+					
+							<img data-product={{item.product.id}} data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow_down_btn.png' %}">
 						</div>
 					</div>
 					<div style="flex:1">{{ item.get_total }}</div>

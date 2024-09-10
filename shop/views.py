@@ -41,7 +41,8 @@ def cart(request):
         order = {'get_cart_total': 0, }
     
     context = { 
-        'items': items 
+        'items': items,
+        'order': order,
     }
     return render(request, 'cart.html', context)
 
@@ -69,7 +70,7 @@ def update_item(request):
     if orderItem.quantity <= 0:
         orderItem.delete()
 
-    return JsonResponse('Item was added', safe=False)
+    return JsonResponse('Item was updated', safe=False)
 
 def checkout(request):
     if request.user.is_authenticated:
@@ -81,7 +82,8 @@ def checkout(request):
         order = {'get_cart_total': 0, }
     
     context = { 
-        'items': items 
+        'items': items,
+        'order': order
     }
     return render(request, 'checkout.html', context)
 
