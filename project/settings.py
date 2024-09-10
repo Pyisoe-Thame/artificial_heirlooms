@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.cart_item_count',  # for cart item count accessible from everywhere
             ],
         },
     },
@@ -143,13 +144,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 # Additional directories where static files are stored (e.g., your custom static files in the 'shop' app)
 STATIC_DIR = [
     os.path.join(BASE_DIR, 'shop/static')
 ]
 # Directory where static files will be collected to (for production use)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# MEDIA_URL = '/item_images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'item_images/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

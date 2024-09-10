@@ -1,5 +1,10 @@
 {% extends 'master.html' %}
 {% load static %}
+
+{% block title %}
+  Checkout
+{% endblock %}
+
 {% block content %}
   <div class="row">
 		<div class="col-lg-6">
@@ -47,21 +52,25 @@
 
 		<div class="col-lg-6">
 			<div class="box-element">
-        <a class="btn btn-outline-dark" href="{% url 'cart' %}">
-          Back to Cart
-        </a>
-        <hr>
-        <h3>Order Summary</h3>
-        <hr>
-        <div class="cart-row">
-					<div style="flex:1"><img class="row-image" src="{% static 'images/placeholder_image.png' %}"></div>
-					<div style="flex:2">Product 1</div>
-					<div style="flex:1">2000Ks</div>
-					<div style="flex:1">4</div>
-					<div style="flex:1">8000Ks</div>
-        </div>
-        <h5>Items:   1</h5>
-				<h5>Total:   8000Ks</h5>
+			<a class="btn btn-outline-dark" href="{% url 'cart' %}">
+			Back to Cart
+			</a>
+			<hr>
+			<h3>Order Summary</h3>
+			<hr>
+
+				{% for item in items %}
+				<div class="cart-row">
+						<div style="flex:1"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+						<div style="flex:2"> {{ item.product.name }} </div>
+						<div style="flex:1"> {{ item.product.price }}Ks </div>
+						<div style="flex:1"> {{ item.product.quantity }} </div>
+						<div style="flex:1"> {{ item.product.get_total  }} </div>
+				</div>
+				{% endfor %}
+
+        	<h5>Items: {{ order.get_cart_items }} </h5>
+			<h5>Total: {{ order.get_cart_total }} </h5>
 			</div>
 		</div>
 	</div>

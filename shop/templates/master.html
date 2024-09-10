@@ -27,6 +27,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
+    <script type="text/javascript">
+      var user = '{{ request.user }}'
+      function getCookie(name){
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
+    </script>
+
 </head>
 
 <body>
@@ -43,11 +63,12 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/items/">Items</a>
+              <a class="nav-link" href="/products/">Products</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="/cart/">Cart</a>
+              <a class="nav-link" href="/cart/">Cart ({{ cart_item_count }})</a>
+              <!-- <span class="cart-count">({{ cart_item_count }})</span> -->
             </li>
             {% endif %}
           </ul>
@@ -88,6 +109,8 @@
 
     <!-- include bootstrap javascript -->
     {% bootstrap_javascript %}
+    
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
 </body>
 </html>

@@ -176,10 +176,10 @@ hr {
 
 /* For the image panel */
 .image-panel {
-  width: 300px;              /* Set the fixed width of the panel */
+  width: auto;              /* Set the fixed width of the panel */
   height: 400px;             /* Set the fixed height of the panel */
   overflow: hidden;          /* Ensure the image doesn’t overflow */
-  border: 10px solid lavender;    /* Add a border to give the frame look */
+  border: 10px solid silver;    /* Add a border to give the frame look */
   border-radius: 10px;       /* Optional: Add rounded corners */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
   margin: 20px auto;         /* Center the panel horizontally */
