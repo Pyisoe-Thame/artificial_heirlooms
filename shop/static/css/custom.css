@@ -507,117 +507,72 @@ hr {
 }
 
 /*--------------------------------------------------------------
-# About
+# For the main page
 --------------------------------------------------------------*/
-.about .content h3 {
-  font-weight: 600;
-  font-size: 26px;
-}
 
-.about .content ul {
-  list-style: none;
-  padding: 0;
-}
-
-.about .content ul li {
-  padding-left: 28px;
-  position: relative;
-}
-
-.about .content ul li+li {
-  margin-top: 10px;
-}
-
-.about .content ul i {
-  position: absolute;
-  left: 0;
-  top: 2px;
-  font-size: 20px;
-  color: #ff7f5d;
-  line-height: 1;
-}
-
-.about .content p:last-child {
-  margin-bottom: 0;
-}
-
-.about .content .btn-learn-more {
-  font-family: "Raleway", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  display: inline-block;
-  padding: 12px 32px;
-  border-radius: 5px;
-  transition: 0.3s;
-  line-height: 1;
-  color: #ff7f5d;
-  animation-delay: 0.8s;
-  margin-top: 6px;
-  border: 2px solid #ff7f5d;
-}
-
-.about .content .btn-learn-more:hover {
-  background: #ff7f5d;
-  color: #fff;
-  text-decoration: none;
-}
-
-.counts .counters p {
-  padding: 0;
-  margin: 0 0 20px 0;
-  font-family: "Raleway", sans-serif;
-  font-size: 14px;
-}
-
-/*--------------------------------------------------------------
-# Our Values
---------------------------------------------------------------*/
 .card {
   border: 0;
-  padding: 20px 20px 20px 20px;
+  padding: 20px;
   position: relative;
   width: 100%;
-  background-color: beige;
+  background-color: #d8cfc4; /* Subtle beige to resemble pottery */
+  background-image: url('../images/wood_texture.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  border-radius: 8px; /* Rounded corners for a softer look */
 }
 
 .card-body {
   z-index: 10;
-  background: rgba(170, 125, 70, 0.9);
+  background: rgba(140, 93, 52, 0.8); /* Slightly darker, warm background */
   padding: 15px 30px;
-  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px; /* Consistent rounding */
 }
 
 .card-title {
   font-weight: 700;
   text-align: center;
   margin-bottom: 15px;
-  color: beige;
+  color: burlywood; 
+  font-family: 'Georgia', serif; /* Classic serif font for a traditional feel */
 }
 
 .card:hover .card-title {
-  color: lavenderblush; /* #fff */
+  color: beige; /* #d2b68f; /* Lighter highlight color for hover effect */
 }
 
 .card-title a {
-  color: #150517;
+  color: white;
+  text-decoration: none; /* Remove underline for a cleaner look */
+  border-bottom: 1px solid #3a2a1d; /* Underline effect on hover */
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.card-title a:hover {
+  color: beige; /* Change color on hover */
+  border-bottom: 1px solid transparent; /* Remove underline on hover */
 }
 
 .card-text {
-  color: #5e5e5e;
+  color: burlywood;
+  font-family: 'Georgia', serif; /* Consistent font style */
 }
 
-@keyframes animate-loading {
-  0% {
-    transform: rotate(0deg);
-  }
+/* .main-heading {
+  font-family: 'Georgia', serif;
+  color: #3a2a1d;
+  margin-bottom: 20px;
+} */
 
-  100% {
-    transform: rotate(360deg);
-  }
+/* .introduction {
+  color: peru;
+  font-family: 'Georgia', serif;
+  margin-bottom: 40px;
+} */
+
+.card-title a:hover {
+  color: white;
 }
 
