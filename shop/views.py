@@ -20,14 +20,47 @@ def products(request):
     products = Product.objects.all()
     context = { 
         'products': products,
-        'cartItems': cartItems
+        'cartItems': cartItems,
+        'order': order,
     }
     return render(request, 'products.html', context)  # load the item_list as context
 
+def search_products(request):
+    query = request.GET.get('q', '')  # 'q' is the name of the search input field
+    products = Product.objects.filter(name__icontains=query) if query else Product.objects.all()
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0}
+        cartItems = order['get_cart_items']  # which is zero here
+    
+    context = { 
+        'products': products, 
+        'query': query,
+        'order': order,
+    }
+
+    return render(request, 'products.html', context)
+
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)  # Retrieve the item based on ID
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total': 0, }
+
     context = { 
-        'product': product 
+        'product': product,
+        'order': order,
     }
     return render(request, 'product_detail.html', context)  # Render the item detail template
 
@@ -88,5 +121,17 @@ def checkout(request):
     return render(request, 'checkout.html', context)
 
 def main(request):
-    return render(request, 'main.html')
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total': 0, }
+    
+    context = { 
+        'items': items,
+        'order': order
+    }
+    return render(request, 'main.html', context)
 

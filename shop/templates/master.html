@@ -60,22 +60,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+              <!-- <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a> -->
+              <a class="nav-link" href="/">Home</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/products/">Products</a>
             </li>
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="/cart/">Cart ({{ cart_item_count }})</a>
-              <!-- <span class="cart-count">({{ cart_item_count }})</span> -->
-            </li>
-            {% endif %}
           </ul>
-          <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center;">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center;" action="{% url 'search_products' %}" method="GET">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ query }}">
             <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+        </form>
         </div>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
@@ -85,6 +80,10 @@
             </li>
             <li class="nav-item">
               <span class="mr-2 navbar-username"> The {{ user.username }} </span>
+            </li>
+            <li class="nav-item"></li>
+              <a class="nav-link" href="/cart/">Cart ({{ order.get_cart_items }})</a>
+              <!-- <span class="cart-count">({{ cart_item_count }})</span> -->
             </li>
             {% else %}
             <li class="nav-item">

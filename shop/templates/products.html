@@ -6,11 +6,36 @@
 
 {% block content %}
 
-  <div class="row">
+  {% if query %}
+    <h2>Search results for "{{ query }}"</h2>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 col-sm-12 product-col">
+              <!-- <img class="thumbnail" src="{{ item.image.url }}" alt="{{ item.name }}"> -->
+              <div class="product-list-image-panel">
+                <img src="{{ product.imageURL }}" alt="{{ product.name }}">
+              </div>
+              <div class="box-element product">
+                <span class="badge bg-light text-dark p-2 fs-6"> {{ product.name }} </span>
+                <hr>
+                <a class="btn btn-outline-secondary" href="{% url 'product_detail' product.id %}">View</a> 
+                <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found matching your search query.</p>
+    {% endif %}
+  {% else %}
+  <h2>All Products</h2>
+  <div class="row mb-4">
     {% for product in products %}
-    <div class="col-lg-4 col-md-6 col-sm-12">
+    <div class="col-lg-4 col-md-6 col-sm-12 product-col">
       <!-- <img class="thumbnail" src="{{ item.image.url }}" alt="{{ item.name }}"> -->
-      <div class="image-panel">
+      <div class="product-list-image-panel">
         <img src="{{ product.imageURL }}" alt="{{ product.name }}">
       </div>
       <div class="box-element product">
@@ -23,5 +48,6 @@
     </div>
     {% endfor %}
   </div>
+  {% endif %}
 
 {% endblock %}

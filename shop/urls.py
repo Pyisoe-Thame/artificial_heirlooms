@@ -9,6 +9,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='main/', permanent=True)),
     path('main/', views.main, name = 'main'),
     path('products/', views.products, name = 'products'),
+    path('search/', views.search_products, name='search_products'),
     path('products/<int:product_id>/', views.product_detail, name='product_detail'),  # URL for item details
     path('cart/', views.cart, name = 'cart'),
     path('update_item/', views.update_item, name = 'update_item'),
