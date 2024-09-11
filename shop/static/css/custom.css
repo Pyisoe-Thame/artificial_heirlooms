@@ -68,43 +68,6 @@ h6 {
   display: none !important;
 }
 
-/*--------------------------------------------------------------
-# Preloader
---------------------------------------------------------------*/
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  overflow: hidden;
-  background: #fff;
-}
-
-#preloader:before {
-  content: "";
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #ff7f5d;
-  border-top-color: white;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: animate-preloader 1s linear infinite;
-}
-
-@keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .thumbnail {
   max-width: 100%;
   width: auto;
@@ -265,88 +228,34 @@ hr {
 }
 
 /*--------------------------------------------------------------
-# Header
+# Cart arrow buttons
 --------------------------------------------------------------*/
 
-#header {
-  background: rgba(21, 5, 23, 0.25);
-  transition: all 0.5s;
-  z-index: 997;
-  position: relative;
-  height: 70px;
-}
-
-@media (max-width: 992px) {
-  #header {
-    height: 60px;
-  }
-}
-
-#header.fixed-top,
-#header.header-inner-pages {
-  background: rgba(21, 5, 23, 0.8);
-}
-
-#header.fixed-top {
-  position: fixed;
-}
-
-#header .logo {
-  font-size: 30px;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-#header .logo a {
-  color: #fff;
-}
-
-#header .logo img {
-  max-height: 40px;
-}
-
-.scrolled-offset {
-  margin-top: 70px;
-}
-
-@media (max-width: 991px) {
-  .scrolled-offset {
-    margin-top: 60px;
-  }
-}
-
-/*--------------------------------------------------------------
-# Header Social Links
---------------------------------------------------------------*/
-.header-social-links {
-  padding-left: 20px;
-}
-
-.header-social-links a {
-  color: rgba(255, 255, 255, 0.6);
-  margin-left: 10px;
-  display: inline-flex;
+.quantity-container {
+  display: flex;
   align-items: center;
+  justify-content: flex-start; /* Aligns the content to the left */
+  margin-left: 10px; /* Moves everything to the left */
+}
+
+.quantity {
+  font-size: 18px;
+  margin-right: 10px; /* Space between quantity and buttons */
+  text-align: center;
+}
+
+.quantity-buttons {
+  display: flex;
+  flex-direction: column; /* Stack the arrows vertically */
   justify-content: center;
-  transition: 0.3s;
+  align-items: center; /* Center the arrows horizontally */
 }
 
-.header-social-links a i {
-  line-height: 0;
-}
-
-.header-social-links a:hover {
-  color: #fff;
-}
-
-@media (max-width: 768px) {
-  .header-social-links {
-    padding: 0 15px 0 0;
-  }
+.chg-quantity {
+  width: 12px; /* Smaller size for the arrows */
+  height: 12px;
+  margin: 2px 0; /* Space between the arrows */
+  cursor: pointer;
 }
 
 /*--------------------------------------------------------------
