@@ -22,6 +22,10 @@
 
     {% bootstrap_css %}
     <link rel="stylesheet" type = 'text/css'  href="{% static 'css/custom.css' %}">
+
+    <!-- For additional customizable template specific or common to multiple templates -->
+    {% block custom_styles %}
+    {% endblock %}
     
     <!-- Required meta tags -->
     <meta charset="UTF-8">

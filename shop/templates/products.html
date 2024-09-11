@@ -1,4 +1,5 @@
-{% extends "master.html" %}
+{% extends "wallpaper_base.html" %}
+
 {% load static %}
 {% block title %}
   Products
@@ -7,7 +8,7 @@
 {% block content %}
 
   {% if query %}
-    <h2>Search results for "{{ query }}"</h2>
+  <h2><span class="bg-light-text">Search results for "{{ query }}"</span></h2>
     {% if products %}
         <div class="row">
             {% for product in products %}
@@ -30,7 +31,7 @@
         <p>No products found matching your search query.</p>
     {% endif %}
   {% else %}
-  <h2>All Products</h2>
+  <h2><span class="bg-light-text">All Products</span></h2>
   <div class="row mb-4">
     {% for product in products %}
     <div class="col-lg-4 col-md-6 col-sm-12 product-col">

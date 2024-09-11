@@ -1,23 +1,15 @@
-/**
-* Template Name: Valera
-* Template URL: https://bootstrapmade.com/valera-free-bootstrap-theme/
-* Updated: Mar 17 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
   color: #444444;
+  font-family: serif;
   /*background-image: url('../images/wallpaper.jpg'); /*Update the path to where the image is stored */
-  background-color: whitesmoke; /* in case of no background image */
-  background-size: cover; /* This makes the image cover the entire background */
-  background-position: center center; /* This centers the image */
-  background-repeat: repeat; /* Prevents the image from repeating */
-  background-attachment: fixed; /* Keeps the background fixed when scrolling */
+  /*background-color: whitesmoke; /* in case of no background image */
+  /*background-size: cover; /* This makes the image cover the entire background */
+  /*background-position: center center; /* This centers the image */
+  /*background-repeat: repeat; /* Prevents the image from repeating */
+  /*background-attachment: fixed; /* Keeps the background fixed when scrolling */
 }
 
 a {
@@ -95,7 +87,7 @@ h6 {
 }
 
 .btn-outline-secondary:hover,
-.back-to-items:hover {
+.details-page-button:hover {
   background-color: chocolate;
 }
 
@@ -110,9 +102,9 @@ hr {
 --------------------------------------------------------------*/
 
 /* For the white background with rounded corners */
-.item-details-container .item-name,
-.item-details-container .item-description,
-.item-details-container .back-to-items {
+.product-details-container .item-name,
+.product-details-container .item-description,
+.product-details-container .details-page-button {
     background-color: black;         /* White background */
     border-radius: 10px;             /* Rounded corners */
     padding: 10px 15px;              /* Padding inside the container */
@@ -122,7 +114,7 @@ hr {
 }
 
 /* Style the "Back to items" link to look like a button */
-.item-details-container .back-to-items {
+.product-details-container .details-page-button {
     text-decoration: none;           /* Remove underline */
     color: black;                    /* Text color */
     background-color: #f0f0f0;       /* Slightly off-white background for the link */
@@ -133,13 +125,13 @@ hr {
 }
 
 /* Hover effect for the "Back to items" button */
-.item-details-container .back-to-items:hover {
-    background-color: #ddd;          /* Darken background on hover */
+.product-details-container .details-page-button:hover {
+    background-color: chocolate;          /* Darken background on hover */
 }
 
 /* For the image panel */
 .product-details-container {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
@@ -188,7 +180,7 @@ hr {
   color: #333333;
 }
 
-.back-to-items {
+.details-page-button {
   display: inline-block;
   padding: 10px 20px;
   font-size: 1em;
@@ -200,7 +192,7 @@ hr {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.back-to-items:hover {
+.details-page-button:hover {
   background-color: chocolate;
   color: white;
 }
@@ -215,6 +207,7 @@ hr {
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Ensures the image stays within the container */
+  background-color: lavender;
   border-radius: 10px;
   border: 3px solid silver;
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
@@ -225,6 +218,12 @@ hr {
   max-height: 100%;  /* Maintain aspect ratio */
   object-fit: cover;  /* Ensures the image covers the panel without distorting */
   display: block;  /* Removes any potential inline spacing */
+}
+
+.bg-light-text {
+  background-color: #f8f9fa; /* Light background color */
+  padding: 0.2em 0.5em; /* Add padding to give space around the text */
+  border-radius: 12px; /* Rounded corners */
 }
 
 /*--------------------------------------------------------------
@@ -247,7 +246,7 @@ hr {
 .quantity-buttons {
   display: flex;
   flex-direction: column; /* Stack the arrows vertically */
-  justify-content: center;
+  /*justify-content: center;
   align-items: center; /* Center the arrows horizontally */
 }
 
