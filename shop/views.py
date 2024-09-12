@@ -14,7 +14,7 @@ def products(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0}
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         cartItems = order['get_cart_items']  # which is zero here
 
     products = Product.objects.all()
@@ -36,7 +36,7 @@ def search_products(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0}
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         cartItems = order['get_cart_items']  # which is zero here
     
     context = { 
@@ -56,7 +56,7 @@ def product_detail(request, product_id):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total': 0, }
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
 
     context = { 
         'product': product,
@@ -71,7 +71,7 @@ def cart(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total': 0, }
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
     
     context = { 
         'items': items,
@@ -112,7 +112,7 @@ def checkout(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total': 0, }
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
     
     context = { 
         'items': items,
@@ -127,7 +127,7 @@ def main(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total': 0, }
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
     
     context = { 
         'items': items,
