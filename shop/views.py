@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 import json
-
+import datetime
 from django.db.models import Sum
 from .models import *
 
@@ -119,6 +119,34 @@ def checkout(request):
         'order': order
     }
     return render(request, 'checkout.html', context)
+
+def processOrder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+    data = json.loads(request.body)
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        total = data['form']['total']
+        order.transaction_id = transaction_id
+
+        if total == order.get_cart_total:  # double check with total from request and total from cart.js to ensure security
+            order.complete = True
+        order.save()
+
+        # if shipping is true
+        ShippingAddress.objects.create(  # query create the shipping address
+            customer = customer,
+            order = order,
+            address = data['shipping']['address'],
+            city = data['shipping']['city'],
+            state = data['shipping']['state'],
+            zipcode = data['shipping']['zipcode']
+            # country can be added if the request has it
+        ) 
+    else:
+        print('The user is not logged in.')
+    return JsonResponse('Payment submitted...', safe=False)
 
 def main(request):
     if request.user.is_authenticated:
