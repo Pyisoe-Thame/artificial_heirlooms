@@ -14,20 +14,20 @@ def products(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
         cartItems = order['get_cart_items']  # which is zero here
 
     products = Product.objects.all()
+    categories = Category.objects.all()
     context = { 
         'products': products,
+        'categories': categories,
         'cartItems': cartItems,
         'order': order,
     }
     return render(request, 'products.html', context)  # load the item_list as context
 
-def search_products(request):
-    query = request.GET.get('q', '')  # 'q' is the name of the search input field
-    products = Product.objects.filter(name__icontains=query) if query else Product.objects.all()
+def products_by_category(request, category_id):
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -36,11 +36,41 @@ def search_products(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
+        cartItems = order['get_cart_items']  # which is zero here
+
+    category = get_object_or_404(Category, id=category_id)
+
+    products = Product.objects.filter(category=category)
+    categories = Category.objects.all()
+    context = {
+        'category': category,
+        'products': products,
+        'categories': categories,
+        'cartItems': cartItems,
+        'order': order,
+    }
+    
+    return render(request, 'products.html', context)
+
+def search_products(request):
+    query = request.GET.get('q', '')  # 'q' is the name of the search input field
+    products = Product.objects.filter(name__icontains=query) if query else Product.objects.all()
+    categories = Category.objects.all()
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0}
         cartItems = order['get_cart_items']  # which is zero here
     
     context = { 
         'products': products, 
+        'caegories': categories,
         'query': query,
         'order': order,
     }
@@ -49,6 +79,7 @@ def search_products(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)  # Retrieve the item based on ID
+    categories = Category.objects.all()
 
     if request.user.is_authenticated:
         customer = request.user.customer
@@ -56,10 +87,11 @@ def product_detail(request, product_id):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
 
     context = { 
         'product': product,
+        'categories': categories,
         'order': order,
     }
     return render(request, 'product_detail.html', context)  # Render the item detail template
@@ -71,7 +103,7 @@ def cart(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
     
     context = { 
         'items': items,
@@ -112,7 +144,7 @@ def checkout(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
     
     context = { 
         'items': items,
@@ -130,7 +162,9 @@ def processOrder(request):
         total = data['form']['total']
         order.transaction_id = transaction_id
 
-        if total == order.get_cart_total:  # double check with total from request and total from cart.js to ensure security
+        if total == order.get_cart_total():  # double check with total from request and total from cart.js to ensure security
+            print(total)
+            print(order.get_cart_total())
             order.complete = True
         order.save()
 
@@ -155,9 +189,11 @@ def main(request):
         items = order.orderitem_set.all()
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
+        order = {'get_cart_total':0, 'get_cart_items':0}
     
+    categories = Category.objects.all()
     context = { 
+        'categories': categories,  # for the Products dropdown-menu
         'items': items,
         'order': order
     }

@@ -1,0 +1,54 @@
+{% extends "wallpaper_base.html" %}
+
+{% load static %}
+{% block title %}
+  Products
+{% endblock %}
+
+{% block content %}
+
+  {% if query %}
+  <h2><span class="bg-light-text">Search results for "{{ query }}"</span></h2>
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 col-sm-12 product-col">
+              <!-- <img class="thumbnail" src="{{ item.image.url }}" alt="{{ item.name }}"> -->
+              <div class="product-list-image-panel">
+                <img src="{{ product.imageURL }}" alt="{{ product.name }}">
+              </div>
+              <div class="box-element product">
+                <span class="badge bg-light text-dark p-2 fs-6"> {{ product.name }} </span>
+                <hr>
+                <a class="btn btn-outline-secondary" href="{% url 'product_detail' product.id %}">View</a> 
+                <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+                <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p><span class="bg-light-text">No products found matching your search query.</span></p>
+    {% endif %}
+  {% else %}
+  <h2><span class="bg-light-text">All Products</span></h2>
+  <div class="row mb-4">
+    {% for product in products %}
+    <div class="col-lg-4 col-md-6 col-sm-12 product-col">
+      <!-- <img class="thumbnail" src="{{ item.image.url }}" alt="{{ item.name }}"> -->
+      <div class="product-list-image-panel">
+        <img src="{{ product.imageURL }}" alt="{{ product.name }}">
+      </div>
+      <div class="box-element product">
+        <span class="badge bg-light text-dark p-2 fs-6"> {{ product.name }} </span>
+        <hr>
+        <a class="btn btn-outline-secondary" href="{% url 'product_detail' product.id %}">View</a> 
+        <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+        <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+{% endblock %}

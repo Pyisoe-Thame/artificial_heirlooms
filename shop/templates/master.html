@@ -67,9 +67,18 @@
               <!-- <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a> -->
               <a class="nav-link" href="/">Home</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/products/">Products</a>
-            </li>
+            <!-- Dropdown for Products -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Products
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/products/">All Products</a></li>
+                  {% for category in categories %}
+                  <li><a class="dropdown-item" href="{% url 'products_by_category' category.id %}">{{ category.name }}</a></li>
+                  {% endfor %}
+              </ul>
+          </li>
           </ul>
           <form class="form-inline my-2 my-lg-0" style="display: flex; align-items: center;" action="{% url 'search_products' %}" method="GET">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ query }}">

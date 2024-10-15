@@ -16,7 +16,7 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=0)
     stock = models.PositiveIntegerField(default=0)
-    # category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name 
@@ -28,6 +28,12 @@ class Product(models.Model):
         except:
             url = ''
         return url
+    
+class Category(models.Model):
+    name = models.CharField(max_length=200, null=False, unique=True)
+
+    def __str__(self):
+        return self.name
     
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
