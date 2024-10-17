@@ -32,6 +32,60 @@ h6 {
 }
 
 /*--------------------------------------------------------------
+# signup page
+--------------------------------------------------------------*/
+
+/* Adjusted card appearance */
+.auth-page .floating-card {
+  background-color: #f3e5d7;  /* Soft beige */
+  border-radius: 10px;
+}
+
+/* Input field styles */
+.auth-page input[type="text"], input[type="email"], input[type="password"] {
+  width: 100%;               
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #6F4E37; 
+  border-radius: 5px;
+  background-color: #fffaf2;  
+  color: #6F4E37;             
+  font-family: Georgia, serif;
+}
+
+/* Button styling */
+.auth-page button {
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
+
+/* Heading text */
+.auth-page h2 {
+  font-family: 'Georgia', serif;
+  font-weight: bold;
+  color: #FFF8DC;  /* Cornsilk for high contrast */
+}
+
+/* Label colors for readability */
+.auth-page label {
+  font-size: 1rem;
+  color: #FFFAF0;  /* Floral white */
+}
+
+/* Text and link styling */
+.auth-page p {
+  color: #FFFFE0;  /* Light yellow */
+}
+
+.auth-page a {
+  color: #FFD700;  /* Gold */
+  text-decoration: none;
+}
+.auth-page a:hover {
+  text-decoration: underline;
+}
+
+/*--------------------------------------------------------------
 # Cart
 --------------------------------------------------------------*/
 
