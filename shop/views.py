@@ -158,15 +158,20 @@ def processOrder(request):
 
     if request.user.is_authenticated:
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = data['form']['total']
-        order.transaction_id = transaction_id
+        order = Order.objects.filter(customer=customer, complete=False).first()  # only process the existing data
 
-        if total == order.get_cart_total():  # double check with total from request and total from cart.js to ensure security
+        if not order:  # No matching order found
+            if data['form']['total'] == 0:  # Ensure the cart total isn't empty
+                return JsonResponse('Cannot create order with empty data', safe=False)
+            order = Order.objects.create(customer=customer, complete=False)
+
+        total = int(data['form']['total'])
+        if total == order.get_cart_total:  # double check with total from request and total from cart.js to ensure security
             print(total)
-            print(order.get_cart_total())
+            print(order.get_cart_total)
+            order.transaction_id = transaction_id
             order.complete = True
-        order.save()
+            order.save()
 
         # if shipping is true
         ShippingAddress.objects.create(  # query create the shipping address

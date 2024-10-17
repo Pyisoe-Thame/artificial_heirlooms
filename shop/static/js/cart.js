@@ -8,15 +8,15 @@ for( var i = 0; i < updateButtons.length; i++)
         console.log('productId:', productId, 'action:', action)
         
         console.log('User:', user)
-        if(user == "AnonymousUser")
-            console.log("User is not authenticated.")
+        if(user != "AnonymousUser")
+            updateCart(productId, action)
         else
-            updateUserOrder(productId, action)
+            console.log("User is not authenticated.")
     })
 }
 
-function updateUserOrder(productId, action){
-    console.log("User is authenticated.")
+function updateCart(productId, action){
+    // console.log("User is authenticated.")
 
     var url = '/update_item/'
     console.log('URL:', url)
