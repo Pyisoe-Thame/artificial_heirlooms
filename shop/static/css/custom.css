@@ -86,6 +86,54 @@ h6 {
 }
 
 /*--------------------------------------------------------------
+# For Google icon
+--------------------------------------------------------------*/
+
+/* .g_id_signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Makes it circular 
+  background-color: #4285F4; /* Google Blue 
+  color: white;
+  padding: 10px; /* Adjust padding as needed 
+  cursor: pointer;
+  width: 56px; /* Adjust size 
+  height: 56px; /* Adjust size 
+  transition: background-color 0.3s; /* Smooth transition for hover effect 
+}
+
+.g_id_signin:hover {
+  background-color: #357ae8; /* Darker shade on hover 
+}
+
+.g_id_signin a {
+  color: inherit; /* Inherit color for the text 
+  text-align: center; /* Center the text 
+} */
+
+.google_button {
+  display: flex;
+  justify-content: center;  /* Horizontal centering */
+  align-items: center;      /* Vertical centering */
+  margin: 0;                /* Remove default margin */
+  transition: all 0.4s ease-in-out; /* Smooth transition effect */
+  isolation: isolate;       /* Avoid blending with the parent container */
+}
+
+.google_button img {
+  border-radius: 50%;  /* circular box */
+  backface-visibility: hidden; /* Prevent rendering issues */
+}
+
+.google_button img:hover {
+  box-shadow: 0 0 20px lavender;
+  transform: scale(1.1);  /* Slight zoom-in on hover */
+  transition: all 0.4s ease-in-out; /* Smooth animation */
+}
+
+
+/*--------------------------------------------------------------
 # Cart
 --------------------------------------------------------------*/
 

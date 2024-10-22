@@ -2,6 +2,12 @@
 
 {% block title %}Login{% endblock %}
 
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+  integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" 
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 {% block content %}
 <div class="auth-page container-fluid d-flex justify-content-center align-items-center full-height">
   <div class="card floating-card shadow-lg p-4" style="width: 400px;">
@@ -37,6 +43,20 @@
             Sign up here
           </a>.
         </p>
+
+        <p class="text-center mt-2" style="color: #FFFFE0;">
+          Or Login with:
+        </p>
+
+        <!-- Google acc -->
+        <div class="google_button">
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'main' %}">
+                <button type="button" style="border:none; background:none;">
+                    <img src="{% static 'images/google_icon-icons.webp' %}" alt="Button Image" width="60" height="60" />
+                </button>
+            </a>
+        </div>
+
       </form>
     </div>
   </div>
