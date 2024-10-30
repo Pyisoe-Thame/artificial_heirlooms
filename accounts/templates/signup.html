@@ -46,32 +46,29 @@
                 <button type="submit" class="btn btn-success w-100 mb-3">
                     Sign Up
                 </button>
-
-                <p class="text-center mt-2" style="color: #FFFFE0;">
-                    Already have an account? 
-                    <a href="{% url 'login' %}" 
-                       style="color: #FFD700; font-weight: bold;">
-                        Login here
-                    </a>.
-                </p>
-
-                <p class="text-center mt-2" style="color: #FFFFE0;">
-                    Or Login with:
-                </p>
-
-                <!-- Google acc -->
-                <div class="google_button">
-                    <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'main' %}">
-                        <button type="button" style="border:none; background:none;">
-                            <img src="{% static 'images/google_icon-icons.webp' %}" alt="Button Image" width="60" height="60" />
-                        </button>
-                    </a>
-                </div>
             </form>
+            <p class="text-center mt-2" style="color: #FFFFE0;">
+                Already have an account? 
+                <a href="{% url 'login' %}" 
+                   style="color: #FFD700; font-weight: bold;">
+                    Login here
+                </a>.
+            </p>
+
+            <p class="text-center mt-2" style="color: #FFFFE0;">
+                Or Login with:
+            </p>
+
+            <!-- Google acc -->
+            <div class="google_button">
+                <a href="{% url 'social:begin' 'google-oauth2' %}?next={% url 'main' %}">
+                    <button type="button" style="border:none; background:none;">
+                        <img src="{% static 'images/google_icon-icons.webp' %}" alt="Button Image" width="60" height="60" />
+                    </button>
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
-<script src="https://accounts.google.com/gsi/client" async></script>
 
 {% endblock %}

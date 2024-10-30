@@ -8,7 +8,7 @@ from .models import *
 def products(request):
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -30,7 +30,7 @@ def products(request):
 def products_by_category(request, category_id):
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -59,7 +59,7 @@ def search_products(request):
     categories = Category.objects.all()
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -82,7 +82,7 @@ def product_detail(request, product_id):
     categories = Category.objects.all()
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
     else:
@@ -98,7 +98,7 @@ def product_detail(request, product_id):
 
 def cart(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
     else:
@@ -119,7 +119,7 @@ def update_item(request):
     print('product id', productId)
     print('action', action)
 
-    customer = request.user.customer
+    customer = request.user
     product = Product.objects.get(id=productId)
 
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -139,7 +139,7 @@ def update_item(request):
 
 def checkout(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
     else:
@@ -157,7 +157,7 @@ def processOrder(request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order = Order.objects.filter(customer=customer, complete=False).first()  # only process the existing data
 
         if not order:  # No matching order found
@@ -189,7 +189,7 @@ def processOrder(request):
 
 def main(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
     else:
