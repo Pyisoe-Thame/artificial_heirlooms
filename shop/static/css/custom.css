@@ -89,29 +89,6 @@ h6 {
 # For Google icon
 --------------------------------------------------------------*/
 
-/* .g_id_signin {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%; /* Makes it circular 
-  background-color: #4285F4; /* Google Blue 
-  color: white;
-  padding: 10px; /* Adjust padding as needed 
-  cursor: pointer;
-  width: 56px; /* Adjust size 
-  height: 56px; /* Adjust size 
-  transition: background-color 0.3s; /* Smooth transition for hover effect 
-}
-
-.g_id_signin:hover {
-  background-color: #357ae8; /* Darker shade on hover 
-}
-
-.g_id_signin a {
-  color: inherit; /* Inherit color for the text 
-  text-align: center; /* Center the text 
-} */
-
 .google_button {
   display: flex;
   justify-content: center;  /* Horizontal centering */
@@ -676,5 +653,15 @@ hr {
 
 .card-title a:hover {
   color: white;
+}
+
+.thank-you-card {
+  display: flex;
+  justify-content: center;  /* Horizontal centering */
+  align-items: center;      /* Vertical centering */
+  margin: 0;                /* Remove default margin */
+  width: 350px;  /* Limit the card width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: Add some shadow */
+  border-radius: 20px;  /* Optional: Rounded corners */
 }
 

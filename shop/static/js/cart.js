@@ -5,9 +5,16 @@ for( var i = 0; i < updateButtons.length; i++)
     updateButtons[i].addEventListener('click', function(){
         var productId = this.dataset.product
         var action = this.dataset.action
+        var stock = parseInt(this.dataset.stock);  // get the stock level from data-stock
+        var currentQuantity = parseInt(this.dataset.quantity); // Get current OrderItem quantity
+
         console.log('productId:', productId, 'action:', action)
-        
         console.log('User:', user)
+        
+        if(action === 'add' && currentQuantity >= stock) {
+            alert("The item count cannot exceed the stock limit.");
+            return;  // stop further execution if the stock limit is reached
+        }
         if(user != "AnonymousUser")
             updateCart(productId, action)
         else

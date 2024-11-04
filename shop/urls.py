@@ -12,10 +12,12 @@ urlpatterns = [
     path('products/category/<int:category_id>/', views.products_by_category, name='products_by_category'),
     path('search/', views.search_products, name='search_products'),
     path('products/<int:product_id>/', views.product_detail, name='product_detail'),  # URL for item details
+    
     path('cart/', views.cart, name = 'cart'),
     path('update_item/', views.update_item, name = 'update_item'),
     path('checkout/', views.checkout, name = 'checkout'),
-    path('process_order/', views.processOrder, name = 'process_order')
+    path('process_order/', views.processOrder, name = 'process_order'),
+    path('thank_you/', views.thankyou, name = 'thank_you'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

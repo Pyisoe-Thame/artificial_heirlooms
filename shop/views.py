@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 import json
 import datetime
-from django.db.models import Sum
 from .models import *
 
 def products(request):
@@ -126,6 +125,8 @@ def update_item(request):
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action == 'add':
+        if orderItem.quantity >= product.stock:  # cannot demand more than supply
+            return JsonResponse('Item count cannot exceed the product stock.', safe=False)
         orderItem.quantity = (orderItem.quantity + 1) 
     elif action == 'remove':
         orderItem.quantity = (orderItem.quantity - 1)
@@ -173,19 +174,46 @@ def processOrder(request):
             order.complete = True
             order.save()
 
-        # if shipping is true
-        ShippingAddress.objects.create(  # query create the shipping address
-            customer = customer,
-            order = order,
-            address = data['shipping']['address'],
-            city = data['shipping']['city'],
-            state = data['shipping']['state'],
-            zipcode = data['shipping']['zipcode']
-            # country can be added if the request has it
-        ) 
+            # reduce stock for each item in the order
+            order_items = order.orderitem_set.all()  # get all OrderItems for the order
+            for item in order_items:
+                product = item.product
+                product.stock -= item.quantity  # reduce stock by the quantity of the order item
+                if product.stock < 0:
+                    product.stock = 0  # rnsure stock does not go below zero
+                product.save()  # save updated stock to the database
+
+            # if shipping is true
+            ShippingAddress.objects.create(  # query create the shipping address
+                customer = customer,
+                order = order,
+                address = data['shipping']['address'],
+                city = data['shipping']['city'],
+                state = data['shipping']['state'],
+                zipcode = data['shipping']['zipcode']
+                # country can be added if the request has it
+            ) 
     else:
         print('The user is not logged in.')
     return JsonResponse('Payment submitted...', safe=False)
+
+def thankyou(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+    else:
+        items = []
+        order = {'get_cart_total':0, 'get_cart_items':0}
+    
+    categories = Category.objects.all()
+    context = { 
+        'categories': categories,  # for the Products dropdown-menu
+        'items': items,
+        'order': order
+    }
+
+    return render(request, 'thankyou.html', context)
 
 def main(request):
     if request.user.is_authenticated:

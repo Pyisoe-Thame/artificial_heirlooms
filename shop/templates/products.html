@@ -21,8 +21,17 @@
                 <span class="badge bg-light text-dark p-2 fs-6"> {{ product.name }} </span>
                 <hr>
                 <a class="btn btn-outline-secondary" href="{% url 'product_detail' product.id %}">View</a> 
-                <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-                <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+                
+                {% if product.stock > 0 %}
+
+                  <button type="button" data-product="{{product.id}}" data-action="add" data-stock="{{ product.stock }}" 
+                    class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+
+                  <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+
+                {% else %}
+                  <span class="badge bg-light text-dark p-2 fs-6" style="float: right"><strong> (Out of Stock) </strong></span>
+                {% endif %}
               </div>
             </div>
             {% endfor %}
@@ -43,8 +52,17 @@
         <span class="badge bg-light text-dark p-2 fs-6"> {{ product.name }} </span>
         <hr>
         <a class="btn btn-outline-secondary" href="{% url 'product_detail' product.id %}">View</a> 
-        <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
-        <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+        
+        {% if product.stock > 0 %}
+          
+          <button type="button" data-product="{{product.id}}" data-action="add" data-stock="{{ product.stock }}" 
+            class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+
+          <span class="badge bg-success p-2 fs-6" style="float: right"><strong>{{ product.price }}Ks</strong></span>
+        
+        {% else %}
+          <span class="badge bg-light text-dark p-2 fs-6" style="float: right"><strong> (Out of Stock) </strong></span>
+        {% endif %}
       </div>
     </div>
     {% endfor %}

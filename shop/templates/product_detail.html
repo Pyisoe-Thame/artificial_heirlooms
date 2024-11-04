@@ -13,9 +13,20 @@
     <div class="image-panel">
         <img src="{{ product.imageURL }}" alt="{{ product.name }}">
     </div>
-    <p class="product-price">Price: {{ product.price }} Ks</p>
+    
+    {% if product.stock > 0 %}
+        <p class="product-price">Price: {{ product.price }} Ks</p>
+    {% else %}
+        <p class="product-price"> Out of Stock </p>
+    {% endif %}
+    
     <p class="product-description"> {{ product.description }} </p>
-    <button data-product="{{product.id}}" data-action="add" class="details-page-button update-cart">Add to Cart</button>
+    
+    {% if product.stock > 0 %}
+        <button data-product="{{product.id}}" data-action="add" data-stock="{{ product.stock }}" 
+            class="details-page-button update-cart">Add to Cart</button>
+    {% endif %}
+    
     <a class="details-page-button" href="{% url 'products' %}">Back to products</a>
 </div>
 

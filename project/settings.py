@@ -163,10 +163,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='YOUR_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YOUR_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY='SOCIAL_AUTH_GOOGLE_OAUTH2_KEY'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'
 SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'http://127.0.0.1:8000/accounts/social-auth/complete/google-oauth2/'
 SOCIAL_AUTH_STATE_PARAMETER = True  # to avoid missing parameter state
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'  # Optional: Handle login errors
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/main/'  # Redirect after successful login
+SOCIAL_AUTH_RAISE_EXCEPTIONS = True  # Enable exceptions for easier debugging
 
 # We need these lines below to allow the Google sign in popup to work.
 SECURE_REFERRER_POLICY = 'no-referrer-when-downgrade'
