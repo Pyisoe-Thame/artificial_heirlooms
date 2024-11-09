@@ -16,13 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from shop.admin import shop_site
 
 urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
+    path('shopadmin/', shop_site.urls),
     path('', include('shop.urls')),
 
     # Place the catch-all pattern at the end
     path('static/<path:path>', include('django.contrib.staticfiles.urls')),
     path('<path:path>', include('django.contrib.staticfiles.urls')),  # Catch-all pattern
 ]
+
+# admin.site.index_title = "Artificial Heirlooms"
+# admin.site.site_header = "Artificial Heirlooms Admin"
+# admin.site.site_title = "Site Title Artificial Heirlooms"
+

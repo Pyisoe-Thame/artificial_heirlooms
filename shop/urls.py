@@ -18,6 +18,10 @@ urlpatterns = [
     path('checkout/', views.checkout, name = 'checkout'),
     path('process_order/', views.processOrder, name = 'process_order'),
     path('thank_you/', views.thankyou, name = 'thank_you'),
+
+    path('sales-statistics/', views.sales_statistics, name='sales_statistics'),
+    path('sales-chart/', views.sales_chart, name='sales_chart'),
+    path('get-sales-data/<str:interval>/', views.get_sales_data, name='get_sales_data'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

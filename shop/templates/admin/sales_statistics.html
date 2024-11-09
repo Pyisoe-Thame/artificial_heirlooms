@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h2>Sales Statistics</h2>
+  
+  <h3>Daily Sales</h3>
+  <p>Total Items Sold: {{ daily_sales.total_items_sold }}</p>
+  <p>Total Revenue: {{ daily_sales.total_revenue }}</p>
+  
+  <h3>Monthly Sales</h3>
+  <p>Total Items Sold: {{ monthly_sales.total_items_sold }}</p>
+  <p>Total Revenue: {{ monthly_sales.total_revenue }}</p>
+  
+  <h3>Yearly Sales</h3>
+  <p>Total Items Sold: {{ yearly_sales.total_items_sold }}</p>
+  <p>Total Revenue: {{ yearly_sales.total_revenue }}</p>
+{% endblock %}
