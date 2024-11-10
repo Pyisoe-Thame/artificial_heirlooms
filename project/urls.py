@@ -19,9 +19,9 @@ from django.urls import include, path
 from shop.admin import shop_site
 
 urlpatterns = [
-    path('accounts/', include('accounts.urls')),
-    path('admin/', admin.site.urls),
-    path('shopadmin/', shop_site.urls),
+    path('accounts/', include('accounts.urls'), name='accounts'),
+    path('admin/', admin.site.urls, name='name'),
+    path('shop-admin/', shop_site.urls, name='shop_admin'),  # urls for shop admin area
     path('', include('shop.urls')),
 
     # Place the catch-all pattern at the end

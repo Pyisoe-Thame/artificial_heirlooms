@@ -7,11 +7,11 @@
 </head>
 <body>
 
-    <div id="chart-container" data-url="{% url 'get_sales_data' 'interval_placeholder' %}" style="width: 900px; height: 600px;">
+    <div id="chart-container" data-url="{% url 'shop_admin:get_sales_data' 'interval_placeholder' %}" style="width: 900px; height: 600px;">
         <h2>Sales Statistics</h2>
         <label for="interval">Choose Interval:</label>
         <select id="interval">
-            <option value="day">Day</option>
+            <option value="week">Week</option>
             <option value="month">Month</option>
             <option value="year">Year</option>
         </select>
@@ -26,9 +26,9 @@
     // Initialize chart
     function initializeChart(labels, data) {
 
-        // sort labels and data based on chronological order
-        const sortedData = labels.map((label, index) => ({ label: label, value: data[index] }))
-            .sort((a, b) => new Date(a.label) - new Date(b.label));
+        // Sort labels based on the 'sortable' date format
+        const sortedData = labels.map(item => ({ label: item.label, sortable: item.sortable, value: data[labels.indexOf(item)] }))
+            .sort((a, b) => new Date(a.sortable) - new Date(b.sortable));
 
         const sortedLabels = sortedData.map(item => item.label);
         const sortedValues = sortedData.map(item => item.value);
@@ -71,13 +71,21 @@
             });
     }
 
-    // Update chart when interval changes
+    // update chart when interval changes
     document.getElementById('interval').addEventListener('change', function() {
         updateChart(this.value);
     });
 
-    // Load initial chart
-    updateChart('day');  // Default to 'day' interval
+    // ensure the dropdown defaults to "week" on page load and browser refreshes
+    document.addEventListener("DOMContentLoaded", function() {
+        const intervalSelect = document.getElementById('interval');
+        
+        // set default value to 'week' on page load (just in case it's not selected)
+        intervalSelect.value = 'week';
+        
+        // load chart with 'week' data initially
+        updateChart('week');
+    });
 </script>
 
 </body>

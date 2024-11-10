@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {{ block.super }}  <!-- Retain existing content from the admin index page -->
+
+    <h2>Shop Admin Additional Links</h2>
+    <ul>
+        <li><a href="{% url 'shop_admin:sales_statistics' %}">Sales Statistics</a></li>
+        <li><a href="{% url 'shop_admin:sales_chart' %}">Sales Chart</a></li>
+    </ul>
+{% endblock %}
+

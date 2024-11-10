@@ -4,7 +4,7 @@ import json
 from datetime import timedelta
 from django.utils import timezone
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
-from django.db.models.functions import TruncDay, TruncMonth, TruncYear
+from django.db import transaction  # to prevent race condition
 
 from .models import *
 
@@ -172,34 +172,32 @@ def processOrder(request):
 
         total = int(data['form']['total'])
         if total == order.get_cart_total:  # double check with total from request and total from cart.js to ensure security
-            print(total)
-            print(order.get_cart_total)
+            
             order.transaction_id = transaction_id
             order.complete = True
             order.date_ordered = timezone.now()  # set the order completion time
-            order.save()
+            
+            with transaction.atomic():  # this acts like a lock
+                order.save()
 
-            # reduce stock for each item in the order
-            order_items = order.orderitem_set.all()  # get all OrderItems for the order
-            for item in order_items:
-                product = item.product
-                product.stock -= item.quantity  # reduce stock by the quantity of the order item
-                if product.stock < 0:
-                    product.stock = 0  # ensure stock does not go below zero
-                product.save()  # save updated stock to the database
+                # reduce stock for each item in the order
+                order_items = order.orderitem_set.all()  # get all OrderItems for the order
+                for item in order_items:
+                    
+                    # lock this product row to prevent other transactions from modifying it
+                    product = Product.objects.select_for_update().get(id=item.product.id)
+                    product.stock -= item.quantity  # reduce stock 
+                    product.stock = max(product.stock, 0)  # ensure stock does not go below zero
+                    product.save()
 
-                # now check other incomplete orders for the same product
-                other_orders = Order.objects.filter(complete=False)  # all incomplete orders
-                for other_order in other_orders:
-                    other_order_item = other_order.orderitem_set.filter(product=product).first()
-                    if other_order_item:  # if there's a matching order item
-                        
-                        # reduce the quantity in the other order
-                        other_order_item.quantity -= item.quantity
-                        if other_order_item.quantity <= 0:
-                            other_order_item.delete()  # delete the orderItem if the quantity becomes zero or less
-                        else:
-                            other_order_item.save()  # otherwise, just save the updated quantity
+                    # update other incomplete orders for the same product
+                    other_order_items = OrderItem.objects.filter(order__complete=False, product=product)
+                    for other_order_item in other_order_items:
+                        if product.stock == 0:
+                            other_order_item.delete()  # remove if out of stock
+                        elif other_order_item.quantity > product.stock:
+                            other_order_item.quantity = product.stock  # set to available stock amount
+                            other_order_item.save()
 
             # if shipping is true
             ShippingAddress.objects.create(  # query create the shipping address
@@ -276,24 +274,35 @@ def sales_statistics(request):
         'yearly_sales': yearly_sales,
     }
 
-    return render(request, 'admin/sales_statistics.html', context)
+    return render(request, 'shopadmin/sales_statistics.html', context)
 
 def sales_chart(request):
-    return render(request, 'admin/sales_chart.html')
+    return render(request, 'shopadmin/sales_chart.html')
 
 def get_sales_data(request, interval):
     order_items = OrderItem.objects.filter(order__complete=True)
-    
     # Filter based on the interval
-    if interval == 'day':
-        start_date = timezone.now() - timedelta(days=1)
+    if interval == 'week':
+        start_date = timezone.now() - timedelta(days=7)
         order_items = order_items.filter(order__date_ordered__gte=start_date)
-        labels = ['Today']  # Only one label for 'day'
-        sales_data = [order_items.aggregate(
-            total_sales=Sum(
-                ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
-            )
-        )['total_sales']]
+        labels = []
+        sales_data = []
+
+        # aggregate sales data by day in the last 7 days
+        for day in range(7):
+            date = timezone.now() - timedelta(days=day)
+            day_sales = order_items.filter(order__date_ordered__date=date.date()).aggregate(
+                total_sales=Sum(
+                    ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
+                )
+            )['total_sales']
+
+            # store both human-readable and sortable date
+            human_readable_date = date.strftime('%b. %d, %Y')  # e.g., 'Nov. 10, 2024'
+            sortable_date = date.strftime('%Y-%m-%d')  # e.g., '2024-11-10'
+    
+            labels.append({'label': human_readable_date, 'sortable': sortable_date})
+            sales_data.append(day_sales if day_sales else 0)
 
     elif interval == 'month':
         start_date = timezone.now() - timedelta(days=30)
@@ -301,7 +310,7 @@ def get_sales_data(request, interval):
         labels = []
         sales_data = []
 
-        # Aggregate sales data by day in the last month
+        # aggregate sales data by day in the last month
         for day in range(30):
             date = timezone.now() - timedelta(days=day)
             day_sales = order_items.filter(order__date_ordered__date=date.date()).aggregate(
@@ -309,7 +318,12 @@ def get_sales_data(request, interval):
                     ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
                 )
             )['total_sales']
-            labels.append(date.strftime('%Y-%m-%d'))
+
+            # store both human-readable and sortable date
+            human_readable_date = date.strftime('%b. %d')  # e.g., 'Nov. 10'
+            sortable_date = date.strftime('%Y-%m-%d')  # e.g., '2024-11-10'
+    
+            labels.append({'label': human_readable_date, 'sortable': sortable_date})
             sales_data.append(day_sales if day_sales else 0)
 
     elif interval == 'year':
@@ -326,7 +340,12 @@ def get_sales_data(request, interval):
                     ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
                 )
             )['total_sales']
-            labels.append(date.strftime('%Y-%m'))
+
+            # store both human-readable and sortable date
+            human_readable_date = date.strftime('%Y %b.')  # e.g., 'Nov. 2024'
+            sortable_date = date.strftime('%Y-%m-%d')  # e.g., '2024-11-10'
+    
+            labels.append({'label': human_readable_date, 'sortable': sortable_date})
             sales_data.append(month_sales if month_sales else 0)
 
     else:

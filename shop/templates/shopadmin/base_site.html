@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}Shop Admin Area{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'shop_admin:index' %}">Shop Admin Area</a></h1>
+{% endblock %}
+
+{% block nav-global %}
+    <nav class="nav-global">
+        <!-- Intentionally exclude "Home" link -->
+        <a href="{% url 'admin:logout' %}">Log out</a>
+    </nav>
+{% endblock %}
+
