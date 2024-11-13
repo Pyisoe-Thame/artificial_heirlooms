@@ -4,18 +4,36 @@
     <meta charset="UTF-8">
     <title>Sales Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Add some space between dropdowns */
+        #interval, #chart-type {
+            margin-right: 40px; /* Adjust this value as needed */
+        }
+    </style>
 </head>
 <body>
 
     <div id="chart-container" data-url="{% url 'shop_admin:get_sales_data' 'interval_placeholder' %}" style="width: 900px; height: 600px;">
-        <h2>Sales Statistics</h2>
-        <label for="interval">Choose Interval:</label>
+        <h2>Aritifical Heirlooms: Sales Statistics</h2>
+        <label for="interval">Time Interval:</label>
         <select id="interval">
             <option value="week">Week</option>
             <option value="month">Month</option>
             <option value="year">Year</option>
         </select>
+
+        <label for="chart-type">Chart Type:</label>
+        <select id="chart-type">
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+        </select>
         
+        <label for="data-type">Data Type:</label>
+        <select id="data-type">
+            <option value="value">Total Sales Value</option>
+            <option value="order">Order Count</option>
+        </select>
+
         <canvas id="salesChart"></canvas>
     </div>    
 
@@ -23,27 +41,33 @@
     const ctx = document.getElementById('salesChart').getContext('2d');
     let salesChart;
 
-    // Initialize chart
-    function initializeChart(labels, data) {
-
-        // Sort labels based on the 'sortable' date format
-        const sortedData = labels.map(item => ({ label: item.label, sortable: item.sortable, value: data[labels.indexOf(item)] }))
-            .sort((a, b) => new Date(a.sortable) - new Date(b.sortable));
+    // Initialize chart with labels and data
+    function initializeChart(labels, chartType, chartData) {
+        console.log("chart initialized")
+        // sort labels based on the 'sortable' date format
+        const sortedData = labels.map((item, index) => ({ 
+            label: item.label, 
+            sortable: item.sortable, 
+            value: chartData[index] 
+        })).sort((a, b) => new Date(a.sortable) - new Date(b.sortable));
 
         const sortedLabels = sortedData.map(item => item.label);
         const sortedValues = sortedData.map(item => item.value);
 
-        if (salesChart) salesChart.destroy();
+        if (salesChart) salesChart.destroy();  // destroy previous chart instance if exists
+
+        // create new chart instance
         salesChart = new Chart(ctx, {
-            type: 'bar',
+            type: chartType,  // default chart type
             data: {
                 labels: sortedLabels,
                 datasets: [{
                     label: 'Sales',
                     data: sortedValues,
-                    backgroundColor: 'rgba(0, 99, 132, 0.6)',
-                    borderColor: 'rgba(0, 99, 132, 1)',
-                    borderWidth: 1
+                    backgroundColor: chartType === 'bar' ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0)',  // True red for bar fill
+                    borderColor: 'rgba(255, 0, 0, 1)',  // Solid red outline for bar or line
+                    borderWidth: 1,
+                    fill: chartType === 'line' ? false : true  // Only fill for bar; not for line
                 }]
             },
             options: {
@@ -58,33 +82,47 @@
     }
 
     // Fetch data for the selected interval
-    function updateChart(interval) {
+    function updateChart(interval, chartType, dataType) {
         // Get the base URL from the data attribute
         const urlTemplate = document.getElementById('chart-container').dataset.url;
-        // Replace 'interval_placeholder' with the actual interval
+        // replace 'interval_placeholder' with the actual interval
         const url = urlTemplate.replace('interval_placeholder', interval);
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                initializeChart(data.labels, data.data);
+                // check if dataType is 'order' or 'value' and set the chart data accordingly
+                const chartData = dataType === 'order' ? data.order_count : data.sales_data;
+                if (!chartData) {
+                    console.error(`Data for ${dataType} is missing in the response.`);
+                    return;  // Exit if chartData is undefined
+                }
+                initializeChart(data.labels, chartType, chartData);
             });
     }
 
-    // update chart when interval changes
+    // event listeners for dropdown changes
     document.getElementById('interval').addEventListener('change', function() {
-        updateChart(this.value);
+        updateChart(this.value, document.getElementById('chart-type').value, document.getElementById('data-type').value);
+    });
+    document.getElementById('chart-type').addEventListener('change', function() {
+        updateChart(document.getElementById('interval').value, this.value, document.getElementById('data-type').value);
+    });
+    document.getElementById('data-type').addEventListener('change', function() {
+        updateChart(document.getElementById('interval').value, document.getElementById('chart-type').value, this.value);
     });
 
-    // ensure the dropdown defaults to "week" on page load and browser refreshes
+    // ensure the dropdown defaults to default choices on page load and browser refreshes
     document.addEventListener("DOMContentLoaded", function() {
         const intervalSelect = document.getElementById('interval');
+        const chartSelect = document.getElementById('chart-type');
+        const dataSelect = document.getElementById('data-type');
         
-        // set default value to 'week' on page load (just in case it's not selected)
         intervalSelect.value = 'week';
+        chartSelect.value = 'bar';
+        dataSelect.value = 'value';
         
-        // load chart with 'week' data initially
-        updateChart('week');
+        updateChart('week', 'bar', 'value');
     });
 </script>
 

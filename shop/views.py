@@ -280,66 +280,63 @@ def sales_chart(request):
     return render(request, 'shopadmin/sales_chart.html')
 
 def get_sales_data(request, interval):
-    order_items = OrderItem.objects.filter(order__complete=True)
+    # initial query for completed orders
+    orders = Order.objects.filter(complete=True)
+
+    # initialize labels, sales_data, and order_counts lists
+    labels = []
+    sales_data = []
+    order_count = []
+    
     # Filter based on the interval
     if interval == 'week':
         start_date = timezone.now() - timedelta(days=7)
-        order_items = order_items.filter(order__date_ordered__gte=start_date)
-        labels = []
-        sales_data = []
+        orders = orders.filter(date_ordered__gte=start_date)
 
         # aggregate sales data by day in the last 7 days
         for day in range(7):
             date = timezone.now() - timedelta(days=day)
-            day_sales = order_items.filter(order__date_ordered__date=date.date()).aggregate(
-                total_sales=Sum(
-                    ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
-                )
-            )['total_sales']
+            daily_orders = orders.filter(date_ordered__date=date.date())
+            day_sales = sum(order.get_cart_total for order in daily_orders)
+            day_orders = daily_orders.count()
 
             # store both human-readable and sortable date
             human_readable_date = date.strftime('%b. %d, %Y')  # e.g., 'Nov. 10, 2024'
             sortable_date = date.strftime('%Y-%m-%d')  # e.g., '2024-11-10'
     
             labels.append({'label': human_readable_date, 'sortable': sortable_date})
-            sales_data.append(day_sales if day_sales else 0)
+            sales_data.append(day_sales)
+            order_count.append(day_orders)
 
     elif interval == 'month':
         start_date = timezone.now() - timedelta(days=30)
-        order_items = order_items.filter(order__date_ordered__gte=start_date)
-        labels = []
-        sales_data = []
+        orders = orders.filter(date_ordered__gte=start_date)
 
         # aggregate sales data by day in the last month
         for day in range(30):
             date = timezone.now() - timedelta(days=day)
-            day_sales = order_items.filter(order__date_ordered__date=date.date()).aggregate(
-                total_sales=Sum(
-                    ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
-                )
-            )['total_sales']
+            daily_orders = orders.filter(date_ordered__date=date.date())
+            day_sales = sum(order.get_cart_total for order in daily_orders)
+            day_orders = daily_orders.count()
 
             # store both human-readable and sortable date
             human_readable_date = date.strftime('%b. %d')  # e.g., 'Nov. 10'
             sortable_date = date.strftime('%Y-%m-%d')  # e.g., '2024-11-10'
     
             labels.append({'label': human_readable_date, 'sortable': sortable_date})
-            sales_data.append(day_sales if day_sales else 0)
+            sales_data.append(day_sales)
+            order_count.append(day_orders)
 
     elif interval == 'year':
         start_date = timezone.now() - timedelta(days=365)
-        order_items = order_items.filter(order__date_ordered__gte=start_date)
-        labels = []
-        sales_data = []
+        orders = orders.filter(date_ordered__gte=start_date)
 
         # Aggregate sales data by month in the last year
         for month in range(12):
             date = timezone.now() - timedelta(days=30 * month)
-            month_sales = order_items.filter(order__date_ordered__year=date.year, order__date_ordered__month=date.month).aggregate(
-                total_sales=Sum(
-                    ExpressionWrapper(F('product__price') * F('quantity'), output_field=DecimalField())
-                )
-            )['total_sales']
+            monthly_orders = orders.filter(date_ordered__year=date.year, date_ordered__month=date.month)
+            month_sales = sum(order.get_cart_total for order in monthly_orders)
+            month_orders = monthly_orders.count()
 
             # store both human-readable and sortable date
             human_readable_date = date.strftime('%Y %b.')  # e.g., 'Nov. 2024'
@@ -347,9 +344,10 @@ def get_sales_data(request, interval):
     
             labels.append({'label': human_readable_date, 'sortable': sortable_date})
             sales_data.append(month_sales if month_sales else 0)
+            order_count.append(month_orders)
 
     else:
         return JsonResponse({'error': 'Invalid interval'}, status=400)
     
-    return JsonResponse({'labels': labels, 'data': sales_data})
+    return JsonResponse({'labels': labels, 'sales_data': sales_data, 'order_count': order_count})
 
