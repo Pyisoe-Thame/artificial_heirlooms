@@ -665,3 +665,58 @@ hr {
   border-radius: 20px;  /* Optional: Rounded corners */
 }
 
+/*--------------------------------------------------------------
+# For the shop-admin's sale-chart page
+--------------------------------------------------------------*/
+
+#chart-container label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #444;
+}
+
+#chart-container select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#chart-container {
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.sale-chart-title {
+  font-family: 'Merriweather', serif;
+  font-size: 2rem;
+  color: chocolate; /* earthy brown color */
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid chocolate; /* subtle underline */
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+#downloadChart {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+}
+
+#downloadChart:hover {
+  background-color: #45a049;
+}
+
+hr.mt-4.mb-4 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
