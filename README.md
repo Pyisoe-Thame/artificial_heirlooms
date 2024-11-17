@@ -11,7 +11,7 @@ A Django-based e-commerce platform for selling traditional handicrafts
 - Elegant look
 
 
-## Deployment
+## Awaken the Application Locally
 
 1. Create a virtual environment and activate it
 ```bash
@@ -21,7 +21,7 @@ A Django-based e-commerce platform for selling traditional handicrafts
 ```
 2. Clone the repository:
 ```bash
- git clone https://github.com/Pyisoe-Thame/artificial_hierlooms
+ git clone https://github.com/Pyisoe-Thame/artificial_heirlooms.git
 ```
 3. Install the required packages
 ```bash
