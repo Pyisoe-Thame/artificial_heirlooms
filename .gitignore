@@ -1,0 +1,17 @@
+# Python bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Django-specific
+/staticfiles/
+
+
+# Git-specific
+.git/
+
+# Compiled files
+*.so
+*.dll
+*.dylib
+*.pyd
