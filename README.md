@@ -27,7 +27,7 @@ A Django-based e-commerce platform for selling traditional handicrafts
 ```bash
  pip install -r requirements.txt
 ```
-4. Update Project Settings
+4. Update Project Settings <br/>
 Open the settings.py file in the project directory and make the following changes for production:
 - Set DEBUG = False.
 - Add your domain or IP address to ALLOWED_HOSTS:
