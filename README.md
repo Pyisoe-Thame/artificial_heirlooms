@@ -27,12 +27,23 @@ A Django-based e-commerce platform for selling traditional handicrafts
 ```bash
  pip install -r requirements.txt
 ```
-4. Run the server
+4. Update Project Settings
+Open the settings.py file in the project directory and make the following changes for production:
+- Set DEBUG = False.
+- Add your domain or IP address to ALLOWED_HOSTS:
+```bash
+ALLOWED_HOSTS = ['127.0.0.1', '<your_ip_address>', '<your_domain>']
+```
+5. Collect Static Files
+```bash
+python manage.py collectstatic
+```
+6. Run the server
 ```bash
  cd artificial_heirlooms
  python -m manage.py runserver
 ```
-5. Enjoy the show!
+7. Enjoy the show!
 ## Google Login
 To achieve login with google replace
 ```
